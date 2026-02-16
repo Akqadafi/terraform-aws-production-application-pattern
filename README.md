@@ -3,22 +3,20 @@ Production-style AWS application stack built with Terraform, demonstrating secur
 
 This repo evolves through three phases:
 
-- **Phase 1 — Verified Foundations:** EC2 → RDS connectivity with Secrets Manager + least-privilege IAM and CLI proof. :contentReference[oaicite:0]{index=0}  
-- **Phase 2 — Exposure & Enforcement:** Public ingress via ALB + TLS, WAF, alarms, and logging/observability. :contentReference[oaicite:1]{index=1} :contentReference[oaicite:2]{index=2} :contentReference[oaicite:3]{index=3}  
-- **Phase 3 — Constraints & Response:** Automated incident evidence collection and report generation (Bedrock-style Auto-IR) plus human verification runbooks. :contentReference[oaicite:4]{index=4} :contentReference[oaicite:5]{index=5}  
+- **Phase 1 — Verified Foundations:** EC2 → RDS connectivity with Secrets Manager + least-privilege IAM and CLI proof.  
+- **Phase 2 — Exposure & Enforcement:** Public ingress via ALB + TLS, WAF, alarms, and logging/observability. 
+- **Phase 3 — Constraints & Response:** Automated incident evidence collection and report generation (Bedrock-style Auto-IR) plus human verification runbooks.   
 
 ---
 
 ## What This Demonstrates 
 
 - **Infrastructure-as-Code discipline** (repeatable builds, versioned change)
-- **Secure app-to-database trust** (SG-to-SG rules, no public RDS, secrets not in code) :contentReference[oaicite:6]{index=6}  
-- **Private compute patterns** (SSM Session Manager, VPC endpoints, optional NAT tradeoffs) :contentReference[oaicite:7]{index=7}  
-- **Production ingress** (ALB, TLS via ACM, DNS, WAF) :contentReference[oaicite:8]{index=8} :contentReference[oaicite:9]{index=9}  
-- **Observability + verification** (CloudWatch alarms/dashboards, WAF logs, ALB access logs) :contentReference[oaicite:10]{index=10} :contentReference[oaicite:11]{index=11}  
-- **Incident response mindset** (evidence bundles, structured reports, runbooks) :contentReference[oaicite:12]{index=12} :contentReference[oaicite:13]{index=13}  
-
----
+- **Secure app-to-database trust** (SG-to-SG rules, no public RDS, secrets not in code)  
+- **Private compute patterns** (SSM Session Manager, VPC endpoints, optional NAT tradeoffs)  
+- **Production ingress** (ALB, TLS via ACM, DNS, WAF) :contentReference[oaicite:8]{index=8} 
+- **Observability + verification** (CloudWatch alarms/dashboards, WAF logs, ALB access logs) 
+- **Incident response mindset** (evidence bundles, structured reports, runbooks) 
 
 ## Architecture Summary
 
@@ -27,19 +25,19 @@ This repo evolves through three phases:
 2. App runs on EC2
 3. EC2 retrieves DB credentials from Secrets Manager (via IAM role)
 4. EC2 connects privately to RDS MySQL
-5. App reads/writes records and returns responses :contentReference[oaicite:14]{index=14}  
+5. App reads/writes records and returns responses 
 
 **Security model:**
 - RDS is **not publicly accessible**
 - RDS inbound allows **TCP 3306 only from the EC2 security group** (not `0.0.0.0/0`)
-- EC2 uses **IAM role** to retrieve secrets; no static creds :contentReference[oaicite:15]{index=15}  
+- EC2 uses **IAM role** to retrieve secrets; no static creds   
 
 ---
 
 ## Repository Layout
 
-├── terraform/ # Terraform root (or env roots)
-├── modules/ # Reusable Terraform modules (optional)
+├── terraform/ # Terraform root 
+├── modules/ # Reusable Terraform modules 
 ├── docs/
 │ ├── PHASE_1_foundation.md
 │ ├── PHASE_2_ingress_observability.md
@@ -50,7 +48,7 @@ This repo evolves through three phases:
 ├── scripts/
 │ ├── collect_evidence.sh # plan/apply evidence capture
 │ └── verify.sh # optional verification helpers
-├── artifacts/ # timestamped evidence bundles (ignored by default)
+├── artifacts/ # timestamped evidence bundles 
 ├── CHANGELOG.md
 └── README.md
 
