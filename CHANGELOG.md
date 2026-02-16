@@ -1,5 +1,9 @@
 ## [unreleased]
 
+### 💼 Other
+
+- Adding incident template and modifying troubleshooting template
+
 ### 📚 Documentation
 
 - Added scripts folder
