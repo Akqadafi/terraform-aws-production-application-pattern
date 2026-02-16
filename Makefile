@@ -1,0 +1,2 @@
+evidence:
+	./scripts/collect.sh
