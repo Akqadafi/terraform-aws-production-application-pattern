@@ -69,10 +69,10 @@ module "monitoring" {
 }
 
 # Optional endpoints module (skeleton right now)
-# module "endpoints" {
-#   source = "./modules/endpoints"
-#   name_prefix        = local.name_prefix
-#   vpc_id             = module.network.vpc_id
-#   private_subnet_ids = module.network.private_subnet_ids
-#   tags               = local.tags
-# }
+module "endpoints" {
+  source = "./modules/endpoints"
+  name_prefix        = local.name_prefix
+  vpc_id             = module.network.vpc_id
+  private_subnet_ids = module.network.private_subnet_ids
+  tags               = local.tags
+}
