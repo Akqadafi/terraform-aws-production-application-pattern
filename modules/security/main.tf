@@ -1,11 +1,11 @@
-# locals {
-#   ports_http      = 80
-#   ports_ssh       = 22
-#   db_port         = 3306
-#   tcp_protocol    = "tcp"
-#   all_ip_address  = "0.0.0.0/0"
-#   all_protocol    = "-1"
-# }
+locals {
+  ports_http      = 80
+  ports_ssh       = 22
+  db_port         = 3306
+  tcp_protocol    = "tcp"
+  all_ip_address  = "0.0.0.0/0"
+  all_protocol    = "-1"
+}
 
 resource "aws_security_group" "arcanum_ec2_sg01" {
   name        = "${var.name_prefix}-ec2-sg01"
