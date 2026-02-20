@@ -1,0 +1,11 @@
+{
+  "suite": "Lab 1a Complete Verification",
+  "timestamp": "2026-02-20T17:18:30Z",
+  "region": "ap-northeast-1",
+  "instance_id": "i-0c561eedd069dfe6e",
+  "secret_id": "lab1a/rds/mysql",
+  "db_id": "db-ISDM6OIO27K72K6MXRWVUOJFC4",
+  "tests": {},
+  "overall_passed": false,
+  "exit_code": 2
+}

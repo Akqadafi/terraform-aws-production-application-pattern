@@ -7,7 +7,10 @@
 
 set -euo pipefail
 
-REGION="${REGION:-us-east-1}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
+REGION="${REGION:-ap-northeast-1}"
 INSTANCE_ID="${INSTANCE_ID:-}"
 SECRET_ID="${SECRET_ID:-}"
 DB_ID="${DB_ID:-}"

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Quick test script for EC2 → RDS Lab application
 
-EC2_IP="54.91.122.42"
+EC2_IP="52.193.206.193"
 MAX_ATTEMPTS=30
 ATTEMPT=0
 
