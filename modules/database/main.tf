@@ -35,7 +35,7 @@ resource "aws_db_instance" "arcanum_rds01" {
 
 # Your ACTIVE secret block from main1.tf:
 resource "aws_secretsmanager_secret" "arcanum_db_secret01" {
-  name                    = "arc1/rds/mysql"
+  name                    = "lab1a/rds/mysql"
   recovery_window_in_days = 0
 }
 

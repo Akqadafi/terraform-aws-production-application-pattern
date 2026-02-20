@@ -1,12 +1,33 @@
-#!/bin/bash
-set -e
+##!/bin/bash
+set -euo pipefail
 
+# ----------------------------
+# Install deps
+# ----------------------------
 dnf update -y
-dnf install -y python3 python3-pip
+dnf install -y python3 python3-pip curl
 
+pip3 install --upgrade pip
 pip3 install flask pymysql boto3
 
+# ----------------------------
+# Detect region dynamically (IMDS)
+# ----------------------------
+# This makes your app automatically use the same region you launched the EC2 instance in.
+REGION="$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
+  | python3 -c 'import sys,json; print(json.load(sys.stdin)["region"])')"
+
+# ----------------------------
+# Secret name (MUST match Terraform)
+# ----------------------------
+# If your Terraform creates a different secret name, change it here.
+SECRET_ID="lab1a/rds/mysql"
+
+# ----------------------------
+# App code
+# ----------------------------
 mkdir -p /opt/rdsapp
+
 cat >/opt/rdsapp/app.py <<'PY'
 import json
 import os
@@ -30,7 +51,14 @@ def get_conn():
     password = c["password"]
     port = int(c.get("port", 3306))
     db = c.get("dbname", "labdb")
-    return pymysql.connect(host=host, user=user, password=password, port=port, database=db, autocommit=True)
+    return pymysql.connect(
+        host=host,
+        user=user,
+        password=password,
+        port=port,
+        database=db,
+        autocommit=True,
+    )
 
 app = Flask(__name__)
 
@@ -95,17 +123,21 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=80)
 PY
 
-cat >/etc/systemd/system/rdsapp.service <<'SERVICE'
+# ----------------------------
+# Systemd service
+# ----------------------------
+cat >/etc/systemd/system/rdsapp.service <<SERVICE
 [Unit]
 Description=EC2 to RDS Notes App
 After=network.target
 
 [Service]
 WorkingDirectory=/opt/rdsapp
-Environment=AWS_REGION=us-east-1
-Environment=SECRET_ID=lab1a/rds/mysql
+Environment=AWS_REGION=${REGION}
+Environment=SECRET_ID=${SECRET_ID}
 ExecStart=/usr/bin/python3 /opt/rdsapp/app.py
 Restart=always
+RestartSec=3
 
 [Install]
 WantedBy=multi-user.target
@@ -113,4 +145,6 @@ SERVICE
 
 systemctl daemon-reload
 systemctl enable --now rdsapp
-no
+
+# Helpful quick status in cloud-init logs
+systemctl --no-pager --full status rdsapp || true
