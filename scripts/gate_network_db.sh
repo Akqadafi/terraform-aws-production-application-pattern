@@ -7,7 +7,7 @@
 
 set -euo pipefail
 
-REGION="${REGION:-us-east-1}"
+REGION="${REGION:-ap-northeast-1}"
 INSTANCE_ID="${INSTANCE_ID:-}"
 DB_ID="${DB_ID:-}"
 DB_PORT="${DB_PORT:-}"
